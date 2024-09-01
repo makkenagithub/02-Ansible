@@ -53,7 +53,7 @@ Playbook is a list of modules, ansible server runs against its node.
 
 YAML:
 #works on indentation.
-- - indicates list
+-indicates list
 
 
 
