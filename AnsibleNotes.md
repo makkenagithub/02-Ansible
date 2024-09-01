@@ -51,5 +51,13 @@ These called as adhoc commands. It is the command issues from ansible server tar
 Playbooks: YAML (Yet another markup language)
 Playbook is a list of modules, ansible server runs against its node.
 
+YAML:
+#works on indentation.
+- indicates list
+
+
+
+
+
 
 
