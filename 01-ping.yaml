@@ -1,0 +1,6 @@
+---
+- name: ping the server
+  hosts: backend #list of hosts to ping. backend group is added in inventory.ini
+  tasks: # tasks/modules/collections
+  - name: ping the servers
+    ansible.builtin.ping:
