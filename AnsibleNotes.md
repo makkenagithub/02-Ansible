@@ -96,7 +96,7 @@ Command to run ansible playbook:
 ```
 ansible-playbook -i inventory.ini -e ansible_user=ec2user -e ansible_password=DevOps321 playbook.yaml 
 ```
-
+We can write multiple plays in a playbook. Generally we write one play in a playbook
 
 
 
