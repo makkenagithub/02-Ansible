@@ -14,11 +14,16 @@ Two architectures in CM:
 2. Pull architecture - Puppet, chef, rundeck (We need to install agent in Nodes)
 
 Ansible used SSH protocol to connect to Nodes
-$ssh ec2-user@IP -C "echo 'hello' > /tmp/hello.txt"
+```
+ssh ec2-user@IP -C "echo 'hello' > /tmp/hello.txt"
+```
 The above command creates hello.txt in the server with IP. Ansible remote login to nodes and executes the commands.
 
 Earlier Ansible is push based, But recently its implemented pull based also. we can use which ever we want.
-The server in which ANsible is installed, its the MASTER server/node. Rest all are Nodes.
+The server in which ANsible is installed, its the MASTER server/node. Rest all are managed Nodes.
+```
+sudo dnf install ansible -y  # installs ansible in the server
+```
 
 Inventory:
 List of servers Ansible is managing. This called as inventory.
@@ -27,7 +32,7 @@ List of servers Ansible is managing. This called as inventory.
 We can use below command to check master node is reaching Nodes or not
 We are in Ansible server (Master) node
 ```
-$ansible -i <Node IP>, all -e ansible_user=ec2_user -e ansible_password=DevOps321 -m ping
+ansible -i <Node IP>, all -e ansible_user=ec2_user -e ansible_password=DevOps321 -m ping
 ```
 -m is module
 
@@ -37,14 +42,14 @@ cmd  option input
 
 2. Install nginx in Node
 ```
-$$ansible -i <Node IP>, all -e ansible_user=ec2_user -e ansible_password=DevOps321 -b -m dnf -a "name=nginx state=installed"
+ansible -i <Node IP>, all -e ansible_user=ec2_user -e ansible_password=DevOps321 -b -m dnf -a "name=nginx state=installed"
 ```
 -b -> become root
 -a -> argument
 
 3. Starting nginx:
 ```
-$$ansible -i <Node IP>, all -e ansible_user=ec2_user -e ansible_password=DevOps321 -b -m service -a "name=nginx state=started"
+ansible -i <Node IP>, all -e ansible_user=ec2_user -e ansible_password=DevOps321 -b -m service -a "name=nginx state=started"
 ```
 These called as adhoc commands. It is the command issues from ansible server targetting node manually. Basically on some emergency/adhoc purpose
 
@@ -56,8 +61,41 @@ YAML:
 
 -indicates list
 
+Ansible can connect to any system externally (not only linux, can connect to azure, aws, github etc also) and can perform tasks given by us..
 
+Ansible Module:
+Module name is mandatory, we can pass other arguments, which can be optional / mandatory.
 
+Inventory:
+A file inventory.ini contains list of servers ansible is connecting to. Here grouping of servers as follows
+
+[backend]
+192.2.3.4
+192.2.3.5
+192.2.3.6
+[frontend]
+192.2.3.7
+192.23.4.6
+192.23.45.55
+[DB]
+192.4.5.6
+192.44.55.66
+
+Ansible playbook: is a list of plays, which contains modules that do specific tasks. Create a playbook.yaml file as below
+```
+---
+- name: ping the server
+  hosts: backend #list of hosts to ping. backend group is added in inventory.ini
+  tasks: # tasks/modules/collections
+  - name: ping the servers
+    ansible.builtin.ping:
+```
+The server in which anible is installed is the ansible server (master/control node). Rest other nodes are managed nodes.
+Command to run ansible playbook:
+
+```
+ansible-playbook -i inventory.ini -e ansible_user=ec2user -e ansible_password=DevOps321 playbook.yaml 
+```
 
 
 
