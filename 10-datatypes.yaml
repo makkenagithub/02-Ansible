@@ -1,0 +1,29 @@
+---
+- name: course information
+  hosts: local
+  connection: local  # ansible do not try for username and passwords. It connects to local host
+  vars:
+    course: "DevOps with AWS"  #string
+    duration: 120  #integer
+    topics:  #list
+    - linux
+    - shell
+    - ansible
+    - terraform
+    - aws
+    - k8s
+    live: true   # boolean
+    tools:  # dictionay/map (key value pairs)
+      ci: jenkins  #string
+      cm: ansible
+      cloud: aws
+      aws:  # list insdie a dictonary
+      - IAM
+      - S3
+      - Security
+  tasks:
+  - name: print course info
+    ansible.biultin.package:
+      msg: "course is {{course}} duration is {{duration}} and topics are: {{topics} , tools are {{tools}}"
+
+  
