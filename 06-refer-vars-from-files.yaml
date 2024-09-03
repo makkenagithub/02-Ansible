@@ -1,7 +1,7 @@
 ---
 - name: variables from files
   hosts: web
-  var_files:
+  vars_files:
   - 06-vars.yaml
   tasks:
   - name: print the information using variables from files
