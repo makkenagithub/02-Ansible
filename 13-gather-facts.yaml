@@ -1,0 +1,8 @@
+---
+- name: gathering facts
+  hosts: web
+  become: yes
+  tasks:
+  - name: gathering facts
+    ansible.builtin.debug: 
+      msg: "facts are: {{ansible_facts}}"
