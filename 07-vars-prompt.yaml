@@ -1,0 +1,15 @@
+---
+- name: variables from prompt (runtime)
+  hosts: web
+  vars_prompt: # by defult entering vas from prompt is confidential. It wont display what we entered as variable value. To display values we need to add a fiels private: fasle
+  - name: COURSE
+    prompt: Enter the course name
+  - name: DURATION
+    prompt: Enter the duration of course
+    private: false  #not confidential
+  - name: TRAINER
+    prompt: enter the trainer name
+  tasks:
+  - name: use variables from prompt
+    ansible.builtin.debug:
+      msg: "Learning {{COURSE}} with duration {{DURATION}} and Trainer is {{TRAINER}}"
