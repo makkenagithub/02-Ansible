@@ -98,5 +98,25 @@ ansible-playbook -i inventory.ini -e ansible_user=ec2user -e ansible_password=De
 ```
 We can write multiple plays in a playbook. Generally we write one play in a playbook
 
+Variables:
+We can define variables at play level, tasks level. and their usage is with {{ }}
+Taks level variables overwrtie play level variables if teh same variable name is used in both taska and plays.
+
+But the general intention is, we do not define variables in play yaml. We define them in seperate files and use **var_files** in playbook
+
+We can pass the variables as arguments also. Below we passed NAME and GREETING varaiables as arguments. -e is for extra variables
+```
+ansible -i inventory.ini -e ansible_user=ec2_user -e ansible_password=DevOps321 vars_playbook.yaml -e "NAME=Suresh GREETING=morning" 
+```
+Variable preference sequence:
+1. arguments/command line
+2. Task level variables
+3. Vars from files
+4. vars from prompt
+5. Play level variables
+6. vars from inventory
+7. Roles level variables
 
 
+
+9. 
