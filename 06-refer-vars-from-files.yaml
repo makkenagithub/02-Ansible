@@ -1,0 +1,9 @@
+---
+- name: variables from files
+  hosts: web
+  var_files:
+  - 06-vars.yaml
+  tasks:
+  - name: print the information using variables from files
+    asnible.builtin.debug:
+      msg: "Learning {{COURSE}} with duration {{DURATION}} and Trainer is {{TRAINER}}"
