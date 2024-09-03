@@ -1,0 +1,20 @@
+---
+#by default the given values in prompt are treated as strings. If we want to use as int ot float, we need to change to
+# int/float with | int or | float
+- name: check a number is lessthan 10 
+  hosts: localhost
+  connection: local
+  vars_prompt:
+  - name: number
+    prompt: please enter number
+    private: false
+  tasks:
+  - name: print if less than 10
+    ansible.builtin.debug:
+      msg: "given number {{number}} is less than 10"
+    when: number | int < 10
+  - name: print if number is gretan than 10
+    ansible.build.debug:
+      msg: "given number {{numner}} is greater than 10"
+    when: number | int >= 10
+    
