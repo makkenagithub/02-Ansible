@@ -119,4 +119,14 @@ Variable preference sequence:
 
 
 
-9. 
+Conditions:
+when condition: when condition is to decide a task/module to run or not
+
+Ansible cant guarentee builtin modules exist for everything. We can run a command by using ansible.builtin.command module
+
+Facts is nothing but variables.
+facts == varaibles
+Gathering facts:
+Ansible before connecting to hosts/servers, it collects entire information, so that it can take decisions based on that information.
+
+
