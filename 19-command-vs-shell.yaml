@@ -1,0 +1,14 @@
+---
+- name: commad vs shell
+  hosts: local
+  connection: local
+  tasks:
+  - name: execute the command 
+    ansible.builtin.command: ls -lrt > /tmp/output.txt  # it gives error. command module do not get | or redirections >
+# command module just issue the command. but shell login to server and execute the command
+  tasks:
+  - name: execute the command 
+    ansible.builtin.shell: ls -lrt > /tmp/output.txt  
+
+  - name: check the process
+    ansible.builtin.shell: ps -ef | grep ssh
