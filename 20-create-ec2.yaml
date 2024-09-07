@@ -1,0 +1,36 @@
+---
+- name: create ec2
+  hosts: local
+  connections: local
+  vars:
+    subnet_id: ""
+    sg_id: ""
+    ami_id: ""
+    instance: ""
+    servers:
+    - mysql
+    - backend
+    - frontend
+  tasks:
+  - name: create ec2 instance
+    amazon.aws.ec2_instance:
+      name: "{{item}}"
+      vpc_subnet_id: {{ subnet_id }}
+      instance_type: {{instance}}
+      security_group: {{sg_id}}
+      image_id: {{ ami_id }}
+    loop: "{{servers}}"
+    register: ec2_instances
+
+  # we get lot of return values after creating ec2 instances. we print it
+  - name: print the output
+    ansible.builtin.debug: 
+      msg: {{ec2_instances}}
+
+
+
+
+
+    
+    
+     
