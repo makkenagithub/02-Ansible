@@ -129,4 +129,32 @@ facts == varaibles
 Gathering facts:
 Ansible before connecting to hosts/servers, it collects entire information, so that it can take decisions based on that information.
 
+Functions:(filters) - We call functions as filters in ansible.
+Ansible is giving opportunity to write custom functions. If we want to write function in ansible we have to write in python code and get the functionality. 
+
+ansible.builtin.command vs ansible.builtin.shell :
+Command -> simple commands
+Shell -> complex commands like pipes, redirections etc. It gets shell environment
+command module just issue the command. But shell login to server and execute the command.
+Command is secure than Shell. So prefer use command if works.
+
+
+Ansible is not only a CM tool. It can connect to any system if module is available.
+
+AWS module:
+amazon.aws.ec2instance module is available. For this we need to install boto3 and botocore collections in ansible server
+```
+pip3.9 install boto3 botocore
+```
+
+We have to configure AWS in ansible server. Initially create a user say "ansible" in the aws console. And then create access key. It gives access and secret keys
+
+Then run below command in ansible server, which asks for access key, secret key and region
+```
+aws configure
+```
+After that create the ec2 instaces using ansible.
+
+
+
 
