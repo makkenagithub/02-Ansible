@@ -156,5 +156,8 @@ aws configure
 After that create the ec2 instaces using ansible.
 
 
+Ansible Roles:
+
+
 
 
