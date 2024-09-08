@@ -157,7 +157,42 @@ After that create the ec2 instaces using ansible.
 
 
 Ansible Roles:
+Its DRY (do not repeat yourself)
+Its a proper structure of playbook, which includes variables, files, templates, other dependencies, handlers etc.
+We can reuse the roles.
+Directory structure:
+1. tasks: we can keep all tasks here
+2. handlers: when there is change in particular task, we can notify other tasks
+3. templates: we can keep all your files with variables (eg: DB_HOST in backend.service)
+4. files: keep files without variables
+5. vars: keep all variables
+6. defaults: keep low priority variables.
+7. meta: other dependencies
+8. library: we can wrtie custom modules using python here
+9. lookup_plugins: all plugins here
 
 
+Ansible configuration file:
+https://docs.ansible.com/ansible/latest/reference_appendices/config.html
+/etc/ansible/ansible.cfg
+Changes can be made and used in a configuration file which will be searched for in the following order:
+ANSIBLE_CONFIG (environment variable if set)
+ansible.cfg (in the current directory)
+~/.ansible.cfg (in the home directory)
+/etc/ansible/ansible.cfg
 
+Its always better place the ansible config file in current working directory.
+
+jinja2 -> templating language
+
+ansible.builtin.copy vs ansible.builtin.template
+We can copy files without variables using copy module.
+We can copy files with variables using template module. Refer backend role in 02-expense-ansible-roles git repos
+
+Handlers/notifiers: 
+when a task is changed, you want to notify another task. Eg: restart nginx etc
+When a task is not changes, we no need to notify and restart
+
+Role dependencies:
+we create meta directory in each role and add main.yaml with role dependencies.
 
