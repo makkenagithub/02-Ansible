@@ -196,3 +196,70 @@ When a task is not changes, we no need to notify and restart
 Role dependencies:
 we create meta directory in each role and add main.yaml with role dependencies.
 
+Ansible vault:
+we keep all the sensitive data like user name, passwords, tokens in ansible vault.
+
+create  vault command. we ned to give a password here. Then it opens the file, we store the password as yaml file
+mysql_root_password: ExpenseApp@1
+we have to give ask_vault_pass=ture in ansible config file, which exists in current directory.
+```
+ansible-vault create credentials_mysql.yaml
+```
+To view (we need to give vault password)
+```
+ansible-vault view credentials_mysql.yaml
+```
+To edit (we need to give vault password)
+```
+ansible-vault edit credentials_mysql.yaml
+```
+
+Ansible Tags:
+I have 100 taks in my playbook. How to run 10 tasks? We can run with ansible tags.
+To run a playbook with specific tags for eg: deployment tag,
+```
+ansible-playbook backend.yaml -t deployment
+```
+tags can be applied at tasks level or play level or block level or roles level
+
+ansible-playbook offers five tag-related command-line options:
+--tags all - run all tasks, tagged and untagged except if never (default behavior).
+--tags tag1,tag2 - run only tasks with either the tag tag1 or the tag tag2 (also those tagged always).
+--skip-tags tag3,tag4 - run all tasks except those with either the tag tag3 or the tag tag4 or never.
+--tags tagged - run only tasks with at least one tag (never overrides).
+--tags untagged - run only tasks with no tags (always overrides).
+
+
+Ansible dynamic inventory:
+inventory.ini is a static file.
+When the traffic increases, servers will also increase based on auto scalling. During that to configure the server we use dynamic inventory.
+Ansible should query cloud and get the IP addresses dynamically at that time.
+We give some query information as below
+1. authenticate
+2. region
+3. name
+4. running
+5. private IP
+ we need to use extra plugins for dynamic inventory. For aws its amazon.aws.aws_ec2
+File name should be *.aws_ec2.yaml
+
+Once we prepare the *.aws_ec2.yaml, we can test its working or not using below command
+```
+ansible-inventory -i demo.aws_ec2.yml --graph
+```
+ansible forks:
+forks will be in ansible.cfg file. By default its value is 5. It means, ansible takes 5 servers at a time an completes the tasks
+forks=5 -> connects to 5 servers at a time and completes the tasks. -> tasks level
+serial=3 -> runs playbook in first 3 servers, again it connects to next 3 servers. -> play level
+
+forks: if we set forks = 10 and assume we have 30 servers. we have a play book with 2 tasks. task1 is install nginx and task2 is start nginx. Initiallt it gathers facts for st 10 servers, then gather facts for 2nd 10 servers, then gather facts for next 10 servers. Then It completes task1 in 1st 10 servers, then task1 in 2nd 10 servers, then task1 in 3rd 10 servers. 
+Then it completes task2 in 1st 10 servers, then task2 in 2nd 10 servers, then task2 in 3rd 10 servers.
+
+serial: If we set serial as 3 in the playbook. assume we have 30 servers. we have a play book with 2 tasks. task1 is install nginx and task2 is start nginx. Initially it gather facts for 3 servers, Then complete task1 in 3 servers, Then complete task2 in 3 servers. After that again it starts gather facts for next 3 servers, complete task1 , an then complete task2. And so on.. First play completes in 3 servers, and then play goto next 3 servers.
+
+Key based connection to hosts from ansible server:
+Initially geneate ssh key , which generates public and private keys. Give public key to aws server while creating aws server.
+Now copy the private key to some file with .pem as fle extension in ANSIBLE SERVER. We need to provide this private key file path in ansible.cfg file.
+private_key_file=<file path.pem>
+
+
