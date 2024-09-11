@@ -249,17 +249,22 @@ ansible-inventory -i demo.aws_ec2.yml --graph
 ```
 ansible forks:
 forks will be in ansible.cfg file. By default its value is 5. It means, ansible takes 5 servers at a time an completes the tasks
+
 forks=5 -> connects to 5 servers at a time and completes the tasks. -> tasks level
+
 serial=3 -> runs playbook in first 3 servers, again it connects to next 3 servers. -> play level
 
 forks: if we set forks = 10 and assume we have 30 servers. we have a play book with 2 tasks. task1 is install nginx and task2 is start nginx. Initiallt it gathers facts for st 10 servers, then gather facts for 2nd 10 servers, then gather facts for next 10 servers. Then It completes task1 in 1st 10 servers, then task1 in 2nd 10 servers, then task1 in 3rd 10 servers. 
+
 Then it completes task2 in 1st 10 servers, then task2 in 2nd 10 servers, then task2 in 3rd 10 servers.
 
 serial: If we set serial as 3 in the playbook. assume we have 30 servers. we have a play book with 2 tasks. task1 is install nginx and task2 is start nginx. Initially it gather facts for 3 servers, Then complete task1 in 3 servers, Then complete task2 in 3 servers. After that again it starts gather facts for next 3 servers, complete task1 , an then complete task2. And so on.. First play completes in 3 servers, and then play goto next 3 servers.
 
 Key based connection to hosts from ansible server:
 Initially geneate ssh key , which generates public and private keys. Give public key to aws server while creating aws server.
+
 Now copy the private key to some file with .pem as fle extension in ANSIBLE SERVER. We need to provide this private key file path in ansible.cfg file.
+
 private_key_file=<file path.pem>
 
 
