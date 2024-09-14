@@ -240,13 +240,39 @@ We give some query information as below
 3. name
 4. running
 5. private IP
+   
  we need to use extra plugins for dynamic inventory. For aws its amazon.aws.aws_ec2
 File name should be *.aws_ec2.yaml
+
+For example to get dynamic IPs of hosts with filters, prepare a file with demo.aws_ec2.yaml as below
+```
+---
+# dynamic inventory file
+# initially 30 servers with ame nginx
+plugin: amazon.aws.aws_ec2
+regions:
+- us-east-1
+filters:
+  tag:Name: nginx
+  instance-state-name: running
+hostnames:
+  - private-ip-address
+
+compose:
+  # This sets the `ansible_host` variable to connect with the private IP address without changing the hostname.
+  ansible_host: private-ip-address
+```
 
 Once we prepare the *.aws_ec2.yaml, we can test its working or not using below command
 ```
 ansible-inventory -i demo.aws_ec2.yml --graph
 ```
+
+Once it works we can call the command to install and run ngnix as below
+```
+ansible-playbook -i demo.aws_ec2.yml 03-nginx.yaml
+```
+
 ansible forks:
 forks will be in ansible.cfg file. By default its value is 5. It means, ansible takes 5 servers at a time an completes the tasks
 
