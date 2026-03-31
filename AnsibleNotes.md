@@ -213,6 +213,37 @@ To edit (we need to give vault password)
 ```
 ansible-vault edit credentials_mysql.yaml
 ```
+When running ansible playbook we have provide vault passowrd
+```
+ansible-playbook site.yml --ask-vault-pass
+or
+ansible-playbook site.yml --vault-password-file pass.txt
+```
+pass.txt contains the password
+
+what to do , when we have multiple ansible vaults ? -- Use Vault IDs (instead of a single password)
+
+Example:
+
+dev_secrets.yml → password: dev123
+
+prod_secrets.yml → password: prod123
+
+```
+ansible-vault create --vault-id dev@prompt dev_secrets.yml
+ansible-vault create --vault-id prod@prompt prod_secrets.yml
+
+vars_files:
+  - dev_secrets.yml
+  - prod_secrets.yml
+```
+Run Playbook with Multiple Vault Passwords
+```
+ansible-playbook site.yml   --vault-id dev@prompt   --vault-id prod@prompt
+or
+ansible-playbook site.yml   --vault-id dev@dev_pass.txt   --vault-id prod@prod_pass.txt
+```
+dev_pass.txt and prod_pass.txt contains the passowrds
 
 Ansible Tags:
 I have 100 taks in my playbook. How to run 10 tasks? We can run with ansible tags.
